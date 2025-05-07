@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+  title: Mock Journey API
+  description: API for accessing mock journeys with sorting and pagination features, secured with JWT authentication.
+  version: 1.0.0
+paths:
+  /login:
+    post:
+      summary: Logs in and returns a JWT token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Successful login, returns JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+  /journeys/exchanges:
+    get:
+      summary: Get journeys sorted by the least number of exchanges
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: origin
+          schema:
+            type: string
+        - in: query
+          name: destination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Journeys sorted by exchanges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  origin:
+                    type: string
+                  destination:
+                    type: string
+                  journeys:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        route:
+                          type: array
+                          items:
+                            type: string
+                        exchanges:
+                          type: integer
+                        price:
+                          type: integer
+                        duration:
+                          type: integer
+  /journeys/cheapest:
+    get:
+      summary: Get journeys sorted by the lowest price
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: origin
+          schema:
+            type: string
+        - in: query
+          name: destination
+          schema:
+            type: string
+        - in: query
+          name: departure
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Journeys sorted by price
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  origin:
+                    type: string
+                  destination:
+                    type: string
+                  departure:
+                    type: string
+                  journeys:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        route:
+                          type: array
+                          items:
+                            type: string
+                        exchanges:
+                          type: integer
+                        price:
+                          type: integer
+                        duration:
+                          type: integer
+  /journeys/fastest:
+    get:
+      summary: Get journeys sorted by the shortest duration
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: origin
+          schema:
+            type: string
+        - in: query
+          name: destination
+          schema:
+            type: string
+        - in: query
+          name: departure
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Journeys sorted by duration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  origin:
+                    type: string
+                  destination:
+                    type: string
+                  departure:
+                    type: string
+                  journeys:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        route:
+                          type: array
+                          items:
+                            type: string
+                        exchanges:
+                          type: integer
+                        price:
+                          type: integer
+                        duration:
+                          type: integer
